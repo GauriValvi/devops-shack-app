@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devops-shack-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devops-shack
+  template:
+    metadata:
+      labels:
+        app: devops-shack
+    spec:
+      containers:
+      - name: devops-shack
+        image: <DOCKERHUB_USERNAME>/devops-shack:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-shack-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: devops-shack
+  ports:
+  - port: 80
+    targetPort: 3000
+
